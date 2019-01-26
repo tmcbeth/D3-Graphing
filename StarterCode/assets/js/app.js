@@ -111,13 +111,13 @@ function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYA
 function updateToolTip(chosenXAxis, circlesGroup) {
     
     if (chosenXAxis === "poverty") {
-        var label = "In Poverty (%)";
+        var xLabel = "In Poverty (%)";
     }
     else if (chosenXAxis === "age") {
-        var label = "Age (Median)";
+        var xLabel = "Age (Median)";
     }
     else {
-        var label = "Household Income (Median)";
+        var xLabel = "Household Income (Median)";
     }
 
     var toolTip = d3.tip()
@@ -140,6 +140,11 @@ function updateToolTip(chosenXAxis, circlesGroup) {
 
     return circlesGroup;
 }
+
+
+
+
+
 
 // NEED FOR Y UPDATES**************** IS THIS RIGHT?
 
@@ -179,18 +184,28 @@ console.log("updates circles");
 
 // Retrieve data from the CSV file and execute everything below
 
-d3.csv("../assets/data/data.csv", function(err, stateData) {
-        if (err) throw err;
+d3.csv("../assets/data/data.csv", function(stateData, err) {
+    if (err) throw err;
     
+    console.log(stateData);
     // parse data
-    stateData.forEach(function (data) {
-        data.poverty = +data.poverty;
-        data.age = +data.age;
-        data.obesity = +data.obesity;
-        data.income = +data.income;
-        data.noHealthInsurance = +data.noHealthInsurance;
-        data.smokes = +data.smokes;
-    });
+    // stateData.forEach(function(data) {
+    //     console.log(data);
+    //     data.poverty = +data.poverty;
+    //     data.age = +data.age;
+    //     data.obesity = +data.obesity;
+    //     data.income = +data.income;
+    //     data.noHealthInsurance = +data.noHealthInsurance;
+    //     data.smokes = +data.smokes;
+    // });
+
+    stateData.poverty = +stateData.poverty;
+    stateData.age = +stateData.age;
+    stateData.obesity = +stateData.obesity;
+    stateData.income = +stateData.income;
+    stateData.noHealthInsurance = +stateData.noHealthInsurance;
+    stateData.smokes = +stateData.smokes;
+    
 
     console.log("retrieve data:", stateData);
     // xLinearScale function above csv import
@@ -230,21 +245,21 @@ d3.csv("../assets/data/data.csv", function(err, stateData) {
     var xLabelsGroup = chartGroup.append("g")
         .attr("transform", `translate(${width / 2}, ${height + 20})`);
     
-    var povertyLabel = xlabelsGroup.append("text")
+    var povertyLabel = xLabelsGroup.append("text")
         .attr("x", 0)
         .attr("y", 20)
         .attr("value", "poverty")
         .classed("active", true)
         .text("In Poverty (%)");
 
-    var ageLabel = xlabelsGroup.append("text")
+    var ageLabel = xLabelsGroup.append("text")
         .attr("x", 0)
         .attr("y", 40)
         .attr("value", "age")
         .classed("inactive", true)
         .text("Age (Median)");
 
-    var incomeLabel = xlabelsGroup.append("text")
+    var incomeLabel = xLabelsGroup.append("text")
         .attr("x", 0)
         .attr("y", 60)
         .attr("value", "income")
@@ -256,6 +271,7 @@ d3.csv("../assets/data/data.csv", function(err, stateData) {
         .attr("transform", `translate(0, ${height / 2})`);
     
     var noHealthInsuranceLabel = yLabelsGroup.append("text")
+        .attr("transform", "rotate(-90)")
         .attr("x", 40)
         .attr("y", 0)
         .attr("value", "noHealthInsurance")
@@ -263,6 +279,7 @@ d3.csv("../assets/data/data.csv", function(err, stateData) {
         .text("Lacks Healthcare (%)")
     
     var smokesLabel = yLabelsGroup.append("text")
+        .attr("transform", "rotate(-90)")
         .attr("x", 20)
         .attr("y", 0)
         .attr("value", "smokes")
@@ -270,6 +287,7 @@ d3.csv("../assets/data/data.csv", function(err, stateData) {
         .text("Smokes (%)")
     
     var obesityLabel = yLabelsGroup.append("text")
+        .attr("transform", "rotate(-90)")
         .attr("x", 0)
         .attr("y", 0)
         .attr("value", "obesity")
