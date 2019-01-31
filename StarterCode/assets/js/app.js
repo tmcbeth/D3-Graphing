@@ -1,11 +1,11 @@
-var svgWidth = 800;
+var svgWidth = 960;
 var svgHeight = 500;
 
 var margin = {
-    top: 20,
-    right: 40,
-    bottom: 80,
-    left: 100
+  top: 20,
+  right: 40,
+  bottom: 80,
+  left: 100
 };
 
 var width = svgWidth - margin.left - margin.right;
@@ -19,6 +19,7 @@ var svg = d3
     .append("svg")
     .attr("width", svgWidth)
     .attr("height", svgHeight);
+  
 
 // Append on SVG group
 
@@ -28,7 +29,7 @@ var chartGroup = svg.append("g")
 // Initial Params
 
 var chosenXAxis = "poverty";
-var chosenYAxis = "noHealthInsurance";
+// var chosenYAxis = "noHealthInsurance";
 
 
 // function used for updating x-scale var upon click on axis label
@@ -48,17 +49,17 @@ function xScale(stateData, chosenXAxis) {
 
 // function used for updating y-scale var upon click on axis label
 
-function yScale(stateData, chosenYAxis) {
-    // create scales
-    var yLinearScale = d3.scaleLinear()
-      .domain([d3.min(stateData, d => d[chosenYAxis]) * 0.8,
-        d3.max(stateData, d => d[chosenYAxis]) * 1.2
-      ])
-      .range([height, 0]);
+// function yScale(stateData, chosenYAxis) {
+//     // create scales
+//     var yLinearScale = d3.scaleLinear()
+//       .domain([d3.min(stateData, d => d[chosenYAxis]) * 0.8,
+//         d3.max(stateData, d => d[chosenYAxis]) * 1.2
+//       ])
+//       .range([height, 0]);
   
-    return yLinearScale;
+//     return yLinearScale;
   
-  }
+//   }
 
 // function used for updating xAxis & yAxis vars upon click on axis label
 
@@ -73,17 +74,17 @@ function renderAxis(newXScale, xAxis) {
 
 }
 
-function renderAxis(newYScale, yAxis) {
-    var leftAxis = d3.axisLeft(newYScale);
+// function renderAxis(newYScale, yAxis) {
+//     var leftAxis = d3.axisLeft(newYScale);
 
-    YAxis.transition()
-        .duration(1000)
-        .call(leftAxis);
+//     YAxis.transition()
+//         .duration(1000)
+//         .call(leftAxis);
     
-    return yAxis;
-}
+//     return yAxis;
+// }
 
-console.log("axis rendered");
+// console.log("axis rendered");
 // function used for updating circles group with a transition to
 // new circles
 
@@ -92,7 +93,7 @@ function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYA
     circlesGroup.transition()
         .duration(1000)
         .attr("cx", d => newXScale(d[chosenXAxis]))
-        .attr("cy", d => newYScale(d[chosenYAxis]));
+        // .attr("cy", d => newYScale(d[chosenYAxis]));
     
     return circlesGroup;
 }
@@ -184,7 +185,7 @@ console.log("updates circles");
 
 // Retrieve data from the CSV file and execute everything below
 
-d3.csv("../assets/data/data.csv", function(stateData, err) {
+d3.csv("../assets/data/data.csv", function(stateData,err) {
     if (err) throw err;
     
     console.log(stateData);
@@ -197,7 +198,7 @@ d3.csv("../assets/data/data.csv", function(stateData, err) {
     //     data.income = +data.income;
     //     data.noHealthInsurance = +data.noHealthInsurance;
     //     data.smokes = +data.smokes;
-    // });
+    // }); 
 
     stateData.poverty = +stateData.poverty;
     stateData.age = +stateData.age;
